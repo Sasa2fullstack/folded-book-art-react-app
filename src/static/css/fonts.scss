@@ -1,0 +1,114 @@
+
+/* Harmonia Sans */
+
+@font-face {
+  font-family: 'Harmonia';
+  src:
+    url('../fonts/HarmoniaSansProCyr-Regular.woff2') format('woff2'),
+    url('../fonts/HarmoniaSansProCyr-Regular.woff') format('woff'),
+    url('../fonts/HarmoniaSansProCyr-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Harmonia';
+  src:
+    url('../fonts/HarmoniaSansProCyr-Semibold.woff2') format('woff2'),
+    url('../fonts/HarmoniaSansProCyr-Semibold.woff') format('woff'),
+    url('../fonts/HarmoniaSansProCyr-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Harmonia';
+  src:
+    url('../fonts/HarmoniaSansProCyr-Bold.woff2') format('woff2'),
+    url('../fonts/HarmoniaSansProCyr-Bold.woff') format('woff'),
+    url('../fonts/HarmoniaSansProCyr-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Harmonia';
+  src:
+    url('../fonts/HarmoniaSansProCyr-BoldItalic.woff2') format('woff2'),
+    url('../fonts/HarmoniaSansProCyr-BoldItalic.woff') format('woff'),
+    url('../fonts/HarmoniaSansProCyr-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Harmonia';
+  src:
+    url('../fonts/HarmoniaSansProCyr-Black.woff2') format('woff2'),
+    url('../fonts/HarmoniaSansProCyr-Black.woff') format('woff'),
+    url('../fonts/HarmoniaSansProCyr-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* Untitled Serif */
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-Regular.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-Regular.woff') format('woff'),
+    url('../fonts/UntitledSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-RegularItalic.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-RegularItalic.woff') format('woff'),
+    url('../fonts/UntitledSerif-RegularItalic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-Medium.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-Medium.woff') format('woff'),
+    url('../fonts/UntitledSerif-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-MediumItalic.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-MediumItalic.woff') format('woff'),
+    url('../fonts/UntitledSerif-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-Bold.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-Bold.woff') format('woff'),
+    url('../fonts/UntitledSerif-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Untitled';
+  src:
+    url('../fonts/UntitledSerif-BoldItalic.woff2') format('woff2'),
+    url('../fonts/UntitledSerif-BoldItalic.woff') format('woff'),
+    url('../fonts/UntitledSerif-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}

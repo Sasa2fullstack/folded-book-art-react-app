@@ -1,0 +1,60 @@
+
+// --------- Fonts ------------------------
+@import 'fonts.scss';
+$font-normal: 'Untitled', 'Helvetica Neue', sans-serif;
+$font-title: 'Harmonia', 'Avenir', 'sans-serif';
+
+// --------- Colors -----------------------
+
+$white: #fff;
+$main-black: #000;
+$main-orange: #ec4a29;
+$main-blue: #2e40ea;
+
+$orange-med: #fe7545;
+$orange-light: #feedea;
+$blue-med: #eaecfd;
+$blue-light: #f9fafe;
+$black-med: rgba(0, 0, 0, 0.8);
+$black-light: rgba(0, 0, 0, 0.4);
+$black-lighter: rgba(0, 0, 0, 0.2);
+$grey: #707073;
+$grey2: #7c7c7e;
+$grey-light: #f2f2f2;
+$grey-lighter: #fcfcfc;
+$grey-button: #c8c8cb;
+$grey-medium: #a7a7af;
+$grey50: #808080;
+$grey70: #b3b3b3;
+
+$col-error: $main-orange;
+$col-success: $main-blue;
+$col-warning: $orange-med;
+
+$border: #979797;
+$border-light: #e6e6e6;
+$border-lighter: #eee;
+$bg-grey-light: #fafafa;
+$section-highlight: #f7f8fe;
+
+// --------- Dimensions -------------------
+
+$desktop-width: 1440px;
+$desktop-width-small: 1080px;
+$desktop-gutter: 50px;
+@function desktop-col($col) {
+  @return ($col *($desktop-gutter + 66) + $desktop-gutter) + 'px';
+}
+
+$tablet-width-large: 900px;
+$tablet-width: 768px;
+$tablet-gutter: 25px;
+@function tablet-col($col) {
+  @return ($col * ($tablet-gutter + 21) + $tablet-gutter) + 'px';
+}
+
+$mobile-width: 480px;
+$mobile-gutter: 16px;
+@function mobile-col($col) {
+  @return ($col * ($mobile-gutter + 9) + $mobile-gutter) + 'px';
+}

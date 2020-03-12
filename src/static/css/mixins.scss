@@ -1,0 +1,58 @@
+@import 'globals.scss';
+@import 'general.scss';
+
+@mixin button($color: $main-black, $size: small, $type: primary) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-family: $font-title;
+  font-weight: 700;
+  text-align: center;
+  transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  @if $type == primary {
+    background-color: $color;
+    color: $white;
+  } @else {
+    background-color: rgba($color, 0.1);
+    color: $color;
+  }
+
+  @if $size == small {
+    font-size: 14px;
+    height: 38px;
+    padding: 3px 40px 0;
+  } @else {
+    font-size: 16px;
+    height: 48px;
+    padding: 3px 50px 0;
+  }
+
+  &:disabled {
+    background-color: $grey;
+    color: $white;
+    cursor: not-allowed;
+    user-select: none;
+  }
+
+  &:hover:enabled {
+    @if $type == primary {
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    } @else {
+      background-color: rgba($color, 0.2);
+    }
+  }
+
+  &:focus:enabled {
+    box-shadow: none;
+    @if $type == primary {
+      background-color: rgba($color, 0.8);
+    } @else {
+      background-color: rgba($color, 0.3);
+    }
+  }
+}

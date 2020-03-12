@@ -1,0 +1,211 @@
+@mixin container {
+  max-width: $desktop-width;
+  width: 100%;
+  margin: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.container {
+  @include container;
+}
+.container-content {
+  @include container;
+  box-sizing: border-box;
+  padding: 0 7%;
+}
+
+.page-title {
+  font-family: $font-title;
+  font-weight: 700;
+  line-height: 32px;
+  font-size: 28px;
+  color: $main-black;
+  margin: 25px 0;
+}
+
+hr,
+.hr {
+  border-top: none;
+  border-bottom: 1px solid $border-light;
+  margin: 30px 0 40px;
+}
+
+.svg_line {
+  stroke: $main-black;
+  stroke-width: 2;
+}
+
+@mixin h1 {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 50px;
+}
+h1,
+.h1 {
+  @include h1;
+}
+
+@mixin h2 {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 42px;
+}
+h2,
+.h2 {
+  @include h2;
+}
+
+@mixin h3 {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+h3,
+.h3 {
+  @include h3;
+}
+
+@mixin h4 {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+h4,
+.h4 {
+  @include h4;
+}
+
+@mixin h5 {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+}
+h5,
+.h5 {
+  @include h5;
+}
+
+@mixin subheading {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.subheading {
+  @include subheading;
+}
+
+@mixin p_large {
+  color: $main-black;
+  font-family: $font-normal;
+  font-size: 18px;
+  line-height: 28px;
+}
+.p_large {
+  @include p_large;
+}
+
+@mixin p_small {
+  color: $main-black;
+  font-family: $font-normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+.p_small {
+  @include p_small;
+}
+
+@mixin p_info {
+  font-family: $font-title;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 19px;
+}
+.p_info {
+  @include p_info;
+}
+
+@mixin button_small_text {
+  font-size: 14px;
+  font-family: $font-title;
+  font-weight: 700;
+}
+
+@mixin button_large_text {
+  font-size: 16px;
+  font-family: $font-title;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+@mixin tab_item {
+  font-family: $font-title;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 56px;
+  height: 56px;
+  color: $grey;
+  cursor: pointer;
+}
+
+@mixin subtitle {
+  font-family: $font-title;
+  line-height: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $main-black;
+}
+.subtitle {
+  @include subtitle;
+}
+
+@mixin icon-size-medium {
+  width: 24px;
+  height: 24px;
+}
+.icon-size-medium {
+  @include icon-size-medium;
+}
+
+@mixin icon-size-large {
+  width: 32px;
+  height: 32px;
+}
+.icon-large {
+  @include icon-size-large;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+@mixin center-text {
+  text-align: center;
+}
+
+.center-text {
+  @include center-text;
+}
+@mixin link {
+  color: $main-black;
+  font-family: $font-title;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+}
+.link {
+  @include link;
+}

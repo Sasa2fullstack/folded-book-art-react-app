@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans');
+
+$border-radius-sm: 14px;
+$border-radius-md: 18px;
+
+body {
+  font-family: 'Work Sans';
+  font-size: 12px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+}
+
+.App {
+  text-align: center;
+  background-color: #474747;
+  height: 100vh;
+}
+
+.btn {
+  height: 30px;
+  font-family: 'Work Sans';
+  font-size: 11px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.4px;
+  color: #ffffff;
+  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.11);
+  transition: background-color box-shadow 0.1s linear;
+}
+
+.btn-sm {
+  font-size: 8.8px;
+  min-width: 154px;
+  height: 30px;
+  text-transform: uppercase;
+  border-radius: $border-radius-sm;
+}
+
+.btn-md {
+  font-size: 11px;
+  min-width: 196px;
+  height: 36px;
+  text-transform: uppercase;
+  border-radius: $border-radius-md;
+}
+
+.btn-primary {
+  background-color: #c429d7;
+  border-color: #c429d7;
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.11);
+  &:hover,
+  &:focus {
+    background-color: #922c88;
+    border-color: #922c88;
+  }
+}
+
+.btn-success {
+  border-color: #62b427;
+  background-color: #62b427;
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.11);
+  &:hover,
+  &:focus {
+    background-color: #218838;
+    border-color: #218838;
+  }
+}
+
+.nav .nav-item {
+  color: #ffffff;
+  margin-left: 10px;
+  &:hover {
+    // border-bottom: solid 1px #c429d7;
+    color: #c429d7;
+    cursor: pointer;
+  }
+}
+
+.nav .nav-item .active {
+  border-bottom: solid 1px #c429d7;
+}
+
+.svg-icon {
+  width: 13px;
+  height: 13px;
+  margin-right: 5px;
+}
+
+// Card CSS
+.card {
+  width: 80%;
+  //min-width: 226px;
+  min-height: 268px;
+  border-radius: 7.1px;
+  border: solid 0.9px #979797;
+  background-color: #474747;
+}
+
+.card-title {
+  min-width: 85px;
+  height: 16px;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.section-group {
+  height: 140px;
+}
+
+.one-section {
+  margin-top: 10px;
+  min-width: 140px;
+  height: 43px;
+  border-radius: 7.1px;
+  background-color: #a7a5a5;
+}
