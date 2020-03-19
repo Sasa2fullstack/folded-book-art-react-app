@@ -1,28 +1,44 @@
 {
   "name": "fba-app",
+  "homepage": "./",
+  "main": "src/start.js",
+  "build": {
+    "appId": "com.electron.electron-with-create-react-app",
+    "win": {
+      "iconUrl": "https://cdn2.iconfinder.com/data/icons/designer-skills/128/react-256.png"
+    },
+    "directories": {
+      "buildResources": "public"
+    }
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
     "connected-react-router": "^6.5.2",
+    "electron": "^8.1.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
     "enzyme-to-json": "^3.4.0",
+    "fs-extra": "^8.1.0",
     "history": "^4.9.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-data-table-component": "^6.3.1",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "^3.4.0",
     "react-table": "^7.0.0",
     "reactstrap": "^8.4.1",
     "redux": "^4.0.4",
     "redux-actions": "^2.6.5",
     "redux-logger": "^3.0.6",
-    "redux-saga": "^1.0.5"
+    "redux-saga": "^1.0.5",
+    "remote": "^0.2.6",
+    "styled-components": "^5.0.1"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -30,13 +46,16 @@
     ]
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "nf start -p 3000",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "precommit": "lint-staged"
+    "electron": "electron .",
+    "electron-start": "node src/start-react",
+    "react-start": "react-scripts start",
+    "pack": "build --dir",
+    "dist": "npm run build && build",
+    "postinstall": "install-app-deps"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -64,6 +83,7 @@
     ]
   },
   "devDependencies": {
+    "electron-builder": "^22.4.1",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-config-prettier": "^6.0.0",

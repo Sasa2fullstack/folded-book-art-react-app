@@ -11,7 +11,7 @@ class Home extends React.Component {
           <Col sm="4">
             <div>
               <p>No patterns yet</p>
-              <Button color="primary" size="sm" onClick={e => history.push('/choose-how-many')}>
+              <Button color="primary" size="sm" onClick={e => history.push('/pattern-type')}>
                 Create Pattern
               </Button>
             </div>

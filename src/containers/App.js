@@ -9,7 +9,10 @@ import configureStore, { history } from 'store/configure';
 import TopNav from 'containers/TopNav';
 import Home from 'containers/Home';
 import PatternList from 'containers/PatternList';
+import PatternType from 'containers/PatternType';
 import HowMany from 'containers/HowMany';
+import SelectSilhouette from 'containers/SelectSilhouette';
+import SilhouetteLibrary from 'containers/SilhouetteLibrary';
 import Page404 from 'containers/Page404';
 
 const store = configureStore();
@@ -25,7 +28,11 @@ function App() {
               <Switch>
                 <Route path="/" exact component={Home} />
                 <Route path="/pattern-list" exact component={PatternList} />
+                <Route path="/pattern-type" exact component={PatternType} />
                 <Route path="/choose-how-many" exact component={HowMany} />
+                <Route path="/select-silhouette" exact component={SelectSilhouette} />
+                <Route path="/silhouette-library" exact component={SilhouetteLibrary} />
+
                 <Route component={Page404} />
               </Switch>
             </div>

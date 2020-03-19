@@ -25,7 +25,7 @@ import imgHelp from 'static/img/help.svg';
 import imgPlus from 'static/img/newpatternplus.svg';
 
 const menuData = [
-  { name: 'Home', icon: imgHome, link: '/' },
+  { name: 'Patterns', icon: imgHome, link: '/' },
   { name: 'Sihouette Library', icon: imgSilh, link: '/silhouette-library' },
   { name: 'Settings', icon: imgSet, link: '/settings' },
   { name: 'Help', icon: imgHelp, link: '/help' }
@@ -39,11 +39,8 @@ class TopNav extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
   toggle(tabLink) {
-    console.log(tabLink);
-    if (this.state.curMenuLink !== tabLink) {
-      this.setState({ curMenuLink: tabLink });
-      history.push(tabLink);
-    }
+    this.setState({ curMenuLink: tabLink });
+    history.push(tabLink);
   }
   render() {
     const { curMenuLink } = this.state;
@@ -70,9 +67,18 @@ class TopNav extends React.Component {
     });
     return (
       <Navbar expand="md" style={{ height: '76px', backgroundColor: '#353535' }}>
-        <Link to="/">
-          <img src={logo} className="" alt="logo" />
-        </Link>
+        {/* <Link to="/"> */}
+        <img
+          src={logo}
+          style={{
+            cursor: 'pointer'
+          }}
+          alt="logo"
+          onClick={() => {
+            this.toggle('/');
+          }}
+        />
+        {/* </Link> */}
 
         <Nav>
           {/* <NavItem>
@@ -85,7 +91,7 @@ class TopNav extends React.Component {
               color="primary"
               size="sm"
               onClick={() => {
-                this.toggle('/choose-how-many');
+                this.toggle('/pattern-type');
               }}
             >
               <img src={imgPlus} className="svg-icon" />

@@ -6,7 +6,7 @@ class PatternList extends React.Component {
   render() {
     return (
       <div>
-        <Row style={{ marginTop: '68px' }}>
+        <Row style={{ marginTop: '20px' }}>
           <Col sm="4"></Col>
           <Col sm="4">
             <div>

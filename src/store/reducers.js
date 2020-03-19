@@ -1,7 +1,7 @@
-import test from './test/reducer';
+import fba from './fba/reducer';
 
 const reducers = {
-  test,
+  fba
 };
 
 export default reducers;

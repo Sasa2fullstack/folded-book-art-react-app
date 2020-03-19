@@ -12,6 +12,16 @@ body {
   line-height: normal;
   letter-spacing: 0.4px;
   color: #ffffff;
+  background-color: #474747;
+}
+
+.modal-body {
+  text-align: center;
+  background-color: #474747;
+}
+.modal-footer {
+  text-align: center;
+  background-color: #474747;
 }
 
 .App {
@@ -76,7 +86,6 @@ body {
   color: #ffffff;
   margin-left: 10px;
   &:hover {
-    // border-bottom: solid 1px #c429d7;
     color: #c429d7;
     cursor: pointer;
   }
@@ -93,19 +102,38 @@ body {
 }
 
 // Card CSS
-.card {
+.pattern-card {
   width: 80%;
-  //min-width: 226px;
-  min-height: 268px;
-  border-radius: 7.1px;
-  border: solid 0.9px #979797;
+  min-height: 222px;
+  border-radius: 8px;
+  border: solid 1px #979797;
+  background-color: #474747;
+  margin: auto;
+  &:hover {
+    border: solid 1px #c429d7;
+    cursor: pointer;
+  }
+}
+.pattern-card-selected {
+  width: 80%;
+  min-height: 222px;
+  border-radius: 8px;
+  margin: auto;
+  border: solid 1px #c429d7;
   background-color: #474747;
 }
-
-.card-title {
+.pattern-card .card-title {
   min-width: 85px;
   height: 16px;
   font-size: 14px;
+  margin: auto;
+  letter-spacing: 0.5px;
+}
+.pattern-card-selected .card-title {
+  min-width: 85px;
+  height: 16px;
+  font-size: 14px;
+  margin: auto;
   letter-spacing: 0.5px;
 }
 
@@ -119,4 +147,54 @@ body {
   height: 43px;
   border-radius: 7.1px;
   background-color: #a7a5a5;
+}
+.selected-silhouette {
+  margin-top: 20px;
+  // width: 250px;
+}
+.selected-silhouette .card-title img {
+  margin-left: '12px';
+}
+.selectlist-silhouette {
+  margin-top: 20px;
+  width: 85%;
+  min-width: 675px;
+  height: 80%;
+  min-height: 84px;
+  border-radius: 8px;
+  background-color: #6c6c6c;
+}
+.img-size-140 {
+  min-width: 140px;
+  min-height: 140px;
+  width: 45%;
+  margin-left: 15px;
+}
+.img-size-65 {
+  width: 65px;
+  height: 65px;
+}
+.remove-btn {
+  background-image: url('../img/recylebin.svg');
+  width: 18px;
+  height: 22px;
+  &:hover {
+    background-image: url('../img/recylebin_hover.svg');
+    cursor: pointer;
+  }
+}
+.list-group-item {
+  border: solid 1px #979797;
+  background-color: #474747;
+  &:hover {
+    // border: solid 1px #c429d7;
+    color: #c429d7;
+    cursor: pointer;
+  }
+}
+.silhouette-list-name {
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
