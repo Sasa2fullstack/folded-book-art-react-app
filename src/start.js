@@ -1,7 +1,14 @@
 const { app, BrowserWindow } = require('electron');
 
+const fs = require('fs-extra');
 const path = require('path');
 const url = require('url');
+const { dialog } = require('electron');
+const ipc = require('electron').ipcMain;
+//const SQL = require('sql.js');
+// const filebuffer = fs.readFileSync('fba.db');
+// const db = new SQL.Database(filebuffer);
+//const contents = db.exec('SELECT * FROM table');
 
 let mainWindow;
 
@@ -40,4 +47,15 @@ app.on('activate', () => {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+let dir, files;
+
+ipc.on('selectDirectory', (event, args) => {
+  // dir = dialog.showOpenDialogSync(mainWindow, {
+  //   properties: ['openDirectory']
+  // });
+  // dialog.showOpenDialog(filePaths => {
+  //   console.log(filePaths);
+  // });
 });

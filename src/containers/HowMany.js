@@ -27,7 +27,9 @@ class HowMany extends React.Component {
       modal: !modal
     });
   };
+
   onCreatePattnern() {}
+
   render() {
     const { many, silhouetteList, modal } = this.state;
     let hideClassName = '';
@@ -173,9 +175,7 @@ class HowMany extends React.Component {
                 <span className="silhouette-list-name">example silhouette name 2 example</span>
               </ListGroupItem>
               <ListGroupItem align="left">
-                <span>
-                  <img src="assets/1.png" className="img-size-65 img-thumbnail" />
-                </span>
+                <span>{/* <img src={img} className="img-size-65 img-thumbnail" /> */}</span>
                 <span className="silhouette-list-name">example silhouette name 2 example</span>
               </ListGroupItem>
             </ListGroup>

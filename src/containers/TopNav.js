@@ -88,7 +88,7 @@ class TopNav extends React.Component {
           </NavItem> */}
           <NavItem>
             <Button
-              color="primary"
+              className="btn-primary btn-sm"
               size="sm"
               onClick={() => {
                 this.toggle('/pattern-type');
