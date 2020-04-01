@@ -14,13 +14,13 @@ const menuData = [
   { name: 'Patterns', icon: imgHome, link: '/' },
   { name: 'Sihouette Library', icon: imgSilh, link: '/silhouette-library' },
   { name: 'Settings', icon: imgSet, link: '/settings' },
-  { name: 'Help', icon: imgHelp, link: '/help' }
+  { name: 'Help', icon: imgHelp, link: '/help' },
 ];
 class TopNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      curMenuLink: '/'
+      curMenuLink: '/',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -59,7 +59,7 @@ class TopNav extends React.Component {
         <img
           src={logo}
           style={{
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
           alt="logo"
           onClick={() => {
