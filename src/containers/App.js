@@ -10,8 +10,8 @@ import TopNav from 'containers/TopNav';
 import Home from 'containers/Home';
 import PatternList from 'containers/PatternList';
 import PatternType from 'containers/PatternType';
-import HowMany from 'containers/HowMany';
-import SelectSilhouette from 'containers/SelectSilhouette';
+import PatternMMF from 'containers/PatternMMF';
+import PatternCutFold from 'containers/PatternCutFold';
 import SilhouetteLibrary from 'containers/SilhouetteLibrary';
 import Page404 from 'containers/Page404';
 
@@ -29,8 +29,8 @@ function App() {
                 <Route path="/" exact component={Home} />
                 <Route path="/pattern-list" exact component={PatternList} />
                 <Route path="/pattern-type" exact component={PatternType} />
-                <Route path="/choose-how-many" exact component={HowMany} />
-                <Route path="/select-silhouette" exact component={SelectSilhouette} />
+                <Route path="/pattern-mmf" exact component={PatternMMF} />
+                <Route path="/pattern-cut-fold" exact component={PatternCutFold} />
                 <Route path="/silhouette-library" exact component={SilhouetteLibrary} />
 
                 <Route component={Page404} />

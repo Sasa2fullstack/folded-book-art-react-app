@@ -13,7 +13,11 @@ class PatternType extends React.Component {
     this.onProceed = this.onProceed.bind(this);
   }
   onProceed(mode) {
-    history.push('/choose-how-many');
+    if (mode === 1) {
+      history.push('/pattern-mmf');
+    } else {
+      history.push('/pattern-cut-fold');
+    }
   }
   render() {
     return (

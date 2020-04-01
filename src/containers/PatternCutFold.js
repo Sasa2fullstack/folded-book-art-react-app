@@ -1,21 +1,29 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { ListGroup, ListGroupItem, ListGroupItemText, Media } from 'reactstrap';
-import { history } from 'store/configure';
+import { Card, CardBody, CardTitle, Button } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter } from 'reactstrap';
+import { ListGroup, ListGroupItem } from 'reactstrap';
 import imgDownload from 'static/img/download.svg';
 
-class HowMany extends React.Component {
+const { ipcRenderer } = window.require('electron');
+const base64Img = window.require('base64-img');
+
+class PatternCutFold extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       many: 0,
-      silhouetteList: ['', '', ''],
+      silhouetteList: [],
       modal: false
     };
     this.onProceed = this.onProceed.bind(this);
     this.onCreatePattnern = this.onCreatePattnern.bind(this);
+  }
+  componentDidMount() {
+    const res = ipcRenderer.sendSync('fba-get-silhouettes');
+    this.setState({
+      silhouetteList: res
+    });
   }
   onProceed(count) {
     this.setState({ many: count });
@@ -31,11 +39,7 @@ class HowMany extends React.Component {
   onCreatePattnern() {}
 
   render() {
-    const { many, silhouetteList, modal } = this.state;
-    let hideClassName = '';
-    if (many === 0) {
-      hideClassName = 'hide-div';
-    }
+    const { many, modal, silhouetteList } = this.state;
     let sections = <div></div>;
     switch (many) {
       case 1:
@@ -44,7 +48,7 @@ class HowMany extends React.Component {
             <Col sm="4"></Col>
             <Col sm="4">
               <Card className="pattern-card" onClick={this.toggle}>
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
             <Col sm="4"></Col>
@@ -57,12 +61,12 @@ class HowMany extends React.Component {
             <Col sm="2"></Col>
             <Col sm="4">
               <Card className="pattern-card">
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
             <Col sm="4">
               <Card className="pattern-card">
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
             <Col sm="2"></Col>
@@ -74,23 +78,36 @@ class HowMany extends React.Component {
           <Row style={{ marginTop: '20px' }}>
             <Col sm="4">
               <Card className="pattern-card">
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
             <Col sm="4">
               <Card className="pattern-card">
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
             <Col sm="4">
               <Card className="pattern-card">
-                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} />
+                <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
           </Row>
         );
         break;
+      default:
+        break;
     }
+    const silhouetteListData = silhouetteList.map((silhouette, idx) => {
+      return (
+        <ListGroupItem align="left" key={idx}>
+          <span>
+            <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
+          </span>
+          <span className="silhouette-list-name">{silhouette.name}</span>
+        </ListGroupItem>
+      );
+    });
+
     return (
       <div style={{ marginTop: '20px' }}>
         <Container>
@@ -147,41 +164,14 @@ class HowMany extends React.Component {
           )}
         </Container>
 
-        <Modal isOpen={modal}>
+        <Modal isOpen={modal} centered>
           <ModalBody>
             <ListGroup style={{ height: '400px' }} className="overflow-auto ">
-              <ListGroupItem align="left">
-                <span>
-                  <img src="assets/1.png" className="img-size-65 img-thumbnail" />
-                </span>
-                <span className="silhouette-list-name">example silhouette name 1</span>
-              </ListGroupItem>
-              <ListGroupItem align="left">
-                <span>
-                  <img src="assets/1.png" className="img-size-65 img-thumbnail" />
-                </span>
-                <span className="silhouette-list-name">example silhouette name 2 example</span>
-              </ListGroupItem>
-              <ListGroupItem align="left">
-                <span>
-                  <img src="assets/1.png" className="img-size-65 img-thumbnail" />
-                </span>
-                <span className="silhouette-list-name">example silhouette name 2 example</span>
-              </ListGroupItem>
-              <ListGroupItem align="left">
-                <span>
-                  <img src="assets/1.png" className="img-size-65 img-thumbnail" />
-                </span>
-                <span className="silhouette-list-name">example silhouette name 2 example</span>
-              </ListGroupItem>
-              <ListGroupItem align="left">
-                <span>{/* <img src={img} className="img-size-65 img-thumbnail" /> */}</span>
-                <span className="silhouette-list-name">example silhouette name 2 example</span>
-              </ListGroupItem>
+              {silhouetteListData}
             </ListGroup>
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.toggle}>
+            <Button className="btn-secondary btn-sm" onClick={this.toggle}>
               Cancel
             </Button>
           </ModalFooter>
@@ -191,4 +181,4 @@ class HowMany extends React.Component {
   }
 }
 
-export default HowMany;
+export default PatternCutFold;

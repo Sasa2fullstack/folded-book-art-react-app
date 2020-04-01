@@ -5,12 +5,10 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import imgDownload from 'static/img/download.svg';
 
-const fs = window.require('fs');
 const electron = window.require('electron');
-var base64Img = window.require('base64-img');
+const base64Img = window.require('base64-img');
 const { dialog } = electron.remote;
-window.electron = {};
-window.electron.dialog = dialog;
+const ipcRenderer = electron.ipcRenderer;
 
 createTheme('solarized', {
   headRow: {
@@ -50,10 +48,14 @@ class SilhouetteLibrary extends React.Component {
     super(props);
     this.columns = [
       {
-        name: 'a',
+        name: '',
         center: true,
         width: '10%',
-        cell: row => <div>{/* <img src={require('assets/1.png')} className="img-size-65 img-thumbnail" /> */}</div>
+        cell: row => (
+          <div>
+            <img src={base64Img.base64Sync(row.path)} style={{ marginTop: '3px', marginBottom: '3px' }} className="img-size-65 img-thumbnail" />
+          </div>
+        )
       },
       {
         name: 'Name',
@@ -64,28 +66,72 @@ class SilhouetteLibrary extends React.Component {
       },
       {
         name: 'Date',
-        selector: 'date',
+        selector: 'created_datetime',
         sortable: true,
         center: true,
         width: '40%'
       },
       {
-        name: 'Remove',
+        name: '',
         center: true,
         width: '10%',
-        cell: row => <div onClick={id => this.remove(row.id)} className="remove-btn"></div>
+        cell: row => <div onClick={id => this.openConfirmDlg(row.id)} className="remove-btn"></div>
       }
     ];
     this.state = {
+      confirmModal: 0,
       silhouetteAddModal: false,
       silhouetteImgPath: '',
       silhouetteName: '',
       errorMsg: '',
-      data: [{ id: 1, name: 'Conan the Barbarian1', date: '2020/1/10', path: 'assets/1.png' }]
+      data: []
     };
-    this.remove = this.remove.bind(this);
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.getSilhouetteData();
+  }
+
+  getSilhouetteData = () => {
+    const res = ipcRenderer.sendSync('fba-get-silhouettes');
+    this.setState({
+      data: res
+    });
+  };
+
+  openAddDlg = () => {
+    this.setState({
+      silhouetteAddModal: true
+    });
+  };
+
+  closeDlg = () => {
+    this.setState({
+      silhouetteAddModal: false
+    });
+  };
+
+  openSilhouetteImg = () => {
+    const files = dialog.showOpenDialogSync({
+      properties: ['openFile'],
+      filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
+      modal: true
+    });
+
+    let { silhouetteImgPath } = this.state;
+    if (files !== undefined) {
+      silhouetteImgPath = files[0].replace(/\\/g, '/');
+    }
+
+    this.setState({
+      silhouetteImgPath: silhouetteImgPath
+    });
+  };
+
+  handleChange = event => {
+    let curState = this.state;
+    curState[event.target.name] = event.target.value;
+    this.setState(curState);
+  };
 
   addSilhouette = () => {
     let error = null;
@@ -100,52 +146,47 @@ class SilhouetteLibrary extends React.Component {
         errorMsg: error
       });
     } else {
+      const res = ipcRenderer.sendSync('fba-new-silhouette', {
+        name: silhouetteName,
+        path: silhouetteImgPath
+      });
+      if (res) {
+        this.getSilhouetteData();
+        this.setState({
+          silhouetteAddModal: false,
+          silhouetteImgPath: '',
+          silhouetteName: '',
+          errorMsg: ''
+        });
+      } else {
+        this.setState({
+          errorMsg: 'Error occured'
+        });
+      }
+    }
+  };
+
+  openConfirmDlg = id => {
+    this.setState({
+      confirmModal: id
+    });
+  };
+
+  removeSilhouette = () => {
+    const { confirmModal } = this.state;
+    const res = ipcRenderer.sendSync('fba-remove-silhouette-byId', { id: confirmModal });
+    if (res) {
+      this.getSilhouetteData();
       this.setState({
-        silhouetteAddModal: false,
-        silhouetteImgPath: '',
-        silhouetteName: ''
+        confirmModal: 0
       });
     }
   };
 
-  cancel = () => {
+  closeConfirmDlg = () => {
     this.setState({
-      silhouetteAddModal: false,
-      silhouetteImgPath: '',
-      silhouetteName: ''
+      confirmModal: 0
     });
-  };
-
-  add = () => {
-    const files = dialog.showOpenDialogSync({
-      properties: ['openFile'],
-      filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
-      modal: true
-    });
-
-    console.log(files);
-
-    this.setState({
-      silhouetteImgPath: files === undefined ? '' : files[0]
-    });
-  };
-
-  handleChange = event => {
-    let curState = this.state;
-    curState[event.target.name] = event.target.value;
-    this.setState(curState);
-  };
-
-  openAddDlg = () => {
-    this.setState({
-      silhouetteAddModal: true
-    });
-  };
-
-  remove = id => {
-    let curState = this.state;
-    curState.data = curState.data.filter(item => item.id !== id);
-    this.setState(curState);
   };
 
   updateState = state => {
@@ -153,7 +194,7 @@ class SilhouetteLibrary extends React.Component {
   };
 
   render() {
-    const { silhouetteAddModal, silhouetteName, silhouetteImgPath, errorMsg } = this.state;
+    const { confirmModal, silhouetteAddModal, silhouetteName, silhouetteImgPath, errorMsg } = this.state;
     let imgOnDlg = imgDownload;
     let imgStyle = { margin: 'auto', width: '57px' };
     if (silhouetteImgPath.length > 0) {
@@ -161,29 +202,29 @@ class SilhouetteLibrary extends React.Component {
       imgStyle = { margin: 'auto', width: '150px', height: '150px' };
     }
     return (
-      <div>
-        <Button color="success" size="sm" id="btn-add-silhouette" onClick={this.openAddDlg} style={{ marginBottom: '10px' }}>
+      <div style={{ marginTop: '20px' }}>
+        <Button color="primary" size="sm" id="btn-add-silhouette" onClick={this.openAddDlg} style={{ marginBottom: '10px' }}>
           New Silhouette
         </Button>
-        <DataTable columns={this.columns} theme="solarized" data={this.state.data} onSelectedRowsChange={this.updateState} />
+        <DataTable columns={this.columns} theme="solarized" data={this.state.data} onSelectedRowsChange={this.updateState} noHeader={true} />
 
-        <Modal isOpen={silhouetteAddModal}>
+        <Modal isOpen={silhouetteAddModal} centered>
           <ModalBody>
             <Row>
               <Col sm="1"></Col>
               <Col sm="10">
-                <Card className="pattern-card" onClick={this.add}>
+                <Card className="pattern-card" onClick={this.openSilhouetteImg}>
                   <img src={imgOnDlg} style={imgStyle} alt="New Silhouette Image" />
                 </Card>
               </Col>
               <Col sm="1"></Col>
             </Row>
             <Row style={{ marginTop: '20px' }}>
-              <Col sm="2"></Col>
-              <Col sm="8">
+              <Col sm="3"></Col>
+              <Col sm="6">
                 <input className="fba-input" type="text" value={silhouetteName} onChange={this.handleChange} name="silhouetteName" />
               </Col>
-              <Col sm="2"></Col>
+              <Col sm="3"></Col>
             </Row>
             <div style={{ marginTop: '10px' }}>{errorMsg}</div>
           </ModalBody>
@@ -191,8 +232,22 @@ class SilhouetteLibrary extends React.Component {
             <Button className="btn-primary btn-sm" onClick={this.addSilhouette}>
               Add new silhouette
             </Button>
-            <Button className="btn-secondary btn-sm" onClick={this.cancel}>
+            <Button className="btn-secondary btn-sm" onClick={this.closeDlg}>
               Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={confirmModal > 0 ? true : false} size="sm" centered>
+          <ModalBody>
+            <div style={{ lineHeight: '12pt' }}>Do you want really to delete a silhouette?</div>
+          </ModalBody>
+          <ModalFooter>
+            <Button className="btn-primary btn-sm" onClick={this.removeSilhouette}>
+              Yes
+            </Button>
+            <Button className="btn-secondary btn-sm" onClick={this.closeConfirmDlg}>
+              No
             </Button>
           </ModalFooter>
         </Modal>
