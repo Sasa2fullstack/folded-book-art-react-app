@@ -1,20 +1,6 @@
 import React from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-  Form
-} from 'reactstrap';
-import { Col, Button } from 'reactstrap';
+import { Navbar, Nav, NavItem, NavLink, Button } from 'reactstrap';
+
 import { Link } from 'react-router-dom';
 import { history } from 'store/configure';
 import logo from 'static/img/fba-logo.svg';
@@ -38,10 +24,12 @@ class TopNav extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
   }
+
   toggle(tabLink) {
     this.setState({ curMenuLink: tabLink });
     history.push(tabLink);
   }
+
   render() {
     const { curMenuLink } = this.state;
     const navItemData = menuData.map((menu, idx) => {

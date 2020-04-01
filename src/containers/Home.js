@@ -7,7 +7,7 @@ class Home extends React.Component {
     return (
       <div>
         <Row style={{ marginTop: '68px' }}>
-          <Col sm="4"></Col>
+          <Col sm="4" />
           <Col sm="4">
             <div>
               <p>No patterns yet</p>
@@ -16,7 +16,7 @@ class Home extends React.Component {
               </Button>
             </div>
           </Col>
-          <Col sm="4"></Col>
+          <Col sm="4" />
         </Row>
       </div>
     );

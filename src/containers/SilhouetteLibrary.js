@@ -1,46 +1,46 @@
 import React from 'react';
-import { Row, Col, Button, Form, FormGroup, Input } from 'reactstrap';
+import { Row, Col, Button, Form, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import DataTable, { createTheme } from 'react-data-table-component';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
+
+
 import imgDownload from 'static/img/download.svg';
 
 const electron = window.require('electron');
 const base64Img = window.require('base64-img');
 const { dialog } = electron.remote;
-const ipcRenderer = electron.ipcRenderer;
+const { ipcRenderer } = electron;
 
 createTheme('solarized', {
   headRow: {
     style: {
-      border: 'none'
-    }
+      border: 'none',
+    },
   },
   headCells: {
     style: {
       color: '#202124',
-      fontSize: '14px'
-    }
+      fontSize: '14px',
+    },
   },
   text: {
     primary: '#ffffff',
-    secondary: '#353535'
+    secondary: '#353535',
   },
   background: {
-    default: '#474747'
+    default: '#474747',
   },
   context: {
-    background: '#353535'
+    background: '#353535',
     // text: '#FFFFFF'
   },
   divider: {
-    default: '#606060'
+    default: '#606060',
   },
   action: {
     button: 'rgba(0,0,0,.54)',
     hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)'
-  }
+    disabled: 'rgba(0,0,0,.12)',
+  },
 });
 
 class SilhouetteLibrary extends React.Component {
@@ -55,28 +55,28 @@ class SilhouetteLibrary extends React.Component {
           <div>
             <img src={base64Img.base64Sync(row.path)} style={{ marginTop: '3px', marginBottom: '3px' }} className="img-size-65 img-thumbnail" />
           </div>
-        )
+        ),
       },
       {
         name: 'Name',
         selector: 'name',
         sortable: true,
         center: true,
-        width: '40%'
+        width: '40%',
       },
       {
         name: 'Date',
         selector: 'created_datetime',
         sortable: true,
         center: true,
-        width: '40%'
+        width: '40%',
       },
       {
         name: '',
         center: true,
         width: '10%',
-        cell: row => <div onClick={id => this.openConfirmDlg(row.id)} className="remove-btn"></div>
-      }
+        cell: row => <div onClick={id => this.openConfirmDlg(row.id)} className="remove-btn" />,
+      },
     ];
     this.state = {
       confirmModal: 0,
@@ -84,9 +84,10 @@ class SilhouetteLibrary extends React.Component {
       silhouetteImgPath: '',
       silhouetteName: '',
       errorMsg: '',
-      data: []
+      data: [],
     };
   }
+
   componentDidMount() {
     this.getSilhouetteData();
   }
@@ -94,19 +95,19 @@ class SilhouetteLibrary extends React.Component {
   getSilhouetteData = () => {
     const res = ipcRenderer.sendSync('fba-get-silhouettes');
     this.setState({
-      data: res
+      data: res,
     });
   };
 
   openAddDlg = () => {
     this.setState({
-      silhouetteAddModal: true
+      silhouetteAddModal: true,
     });
   };
 
   closeDlg = () => {
     this.setState({
-      silhouetteAddModal: false
+      silhouetteAddModal: false,
     });
   };
 
@@ -114,7 +115,7 @@ class SilhouetteLibrary extends React.Component {
     const files = dialog.showOpenDialogSync({
       properties: ['openFile'],
       filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
-      modal: true
+      modal: true,
     });
 
     let { silhouetteImgPath } = this.state;
@@ -123,12 +124,12 @@ class SilhouetteLibrary extends React.Component {
     }
 
     this.setState({
-      silhouetteImgPath: silhouetteImgPath
+      silhouetteImgPath,
     });
   };
 
-  handleChange = event => {
-    let curState = this.state;
+  handleChange = (event) => {
+    const curState = this.state;
     curState[event.target.name] = event.target.value;
     this.setState(curState);
   };
@@ -143,12 +144,12 @@ class SilhouetteLibrary extends React.Component {
     }
     if (error) {
       this.setState({
-        errorMsg: error
+        errorMsg: error,
       });
     } else {
       const res = ipcRenderer.sendSync('fba-new-silhouette', {
         name: silhouetteName,
-        path: silhouetteImgPath
+        path: silhouetteImgPath,
       });
       if (res) {
         this.getSilhouetteData();
@@ -156,19 +157,19 @@ class SilhouetteLibrary extends React.Component {
           silhouetteAddModal: false,
           silhouetteImgPath: '',
           silhouetteName: '',
-          errorMsg: ''
+          errorMsg: '',
         });
       } else {
         this.setState({
-          errorMsg: 'Error occured'
+          errorMsg: 'Error occured',
         });
       }
     }
   };
 
-  openConfirmDlg = id => {
+  openConfirmDlg = (id) => {
     this.setState({
-      confirmModal: id
+      confirmModal: id,
     });
   };
 
@@ -178,18 +179,18 @@ class SilhouetteLibrary extends React.Component {
     if (res) {
       this.getSilhouetteData();
       this.setState({
-        confirmModal: 0
+        confirmModal: 0,
       });
     }
   };
 
   closeConfirmDlg = () => {
     this.setState({
-      confirmModal: 0
+      confirmModal: 0,
     });
   };
 
-  updateState = state => {
+  updateState = (state) => {
     this.setState({ selectedRows: state.selectedRows });
   };
 
@@ -206,25 +207,25 @@ class SilhouetteLibrary extends React.Component {
         <Button color="primary" size="sm" id="btn-add-silhouette" onClick={this.openAddDlg} style={{ marginBottom: '10px' }}>
           New Silhouette
         </Button>
-        <DataTable columns={this.columns} theme="solarized" data={this.state.data} onSelectedRowsChange={this.updateState} noHeader={true} />
+        <DataTable columns={this.columns} theme="solarized" data={this.state.data} onSelectedRowsChange={this.updateState} noHeader />
 
         <Modal isOpen={silhouetteAddModal} centered>
           <ModalBody>
             <Row>
-              <Col sm="1"></Col>
+              <Col sm="1" />
               <Col sm="10">
                 <Card className="pattern-card" onClick={this.openSilhouetteImg}>
                   <img src={imgOnDlg} style={imgStyle} alt="New Silhouette Image" />
                 </Card>
               </Col>
-              <Col sm="1"></Col>
+              <Col sm="1" />
             </Row>
             <Row style={{ marginTop: '20px' }}>
-              <Col sm="3"></Col>
+              <Col sm="3" />
               <Col sm="6">
                 <input className="fba-input" type="text" value={silhouetteName} onChange={this.handleChange} name="silhouetteName" />
               </Col>
-              <Col sm="3"></Col>
+              <Col sm="3" />
             </Row>
             <div style={{ marginTop: '10px' }}>{errorMsg}</div>
           </ModalBody>
@@ -238,7 +239,7 @@ class SilhouetteLibrary extends React.Component {
           </ModalFooter>
         </Modal>
 
-        <Modal isOpen={confirmModal > 0 ? true : false} size="sm" centered>
+        <Modal isOpen={confirmModal > 0} size="sm" centered>
           <ModalBody>
             <div style={{ lineHeight: '12pt' }}>Do you want really to delete a silhouette?</div>
           </ModalBody>

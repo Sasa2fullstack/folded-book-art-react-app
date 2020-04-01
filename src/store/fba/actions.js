@@ -7,5 +7,5 @@ export const GET_TEST_DATA_FAILURE = '@test/GET_TEST_DATA_FAILURE';
 export const testActions = {
   getTestDataRequest: createAction(GET_TEST_DATA_REQUEST),
   getTestDataSuccess: createAction(GET_TEST_DATA_SUCCESS),
-  getTestDataFailure: createAction(GET_TEST_DATA_FAILURE)
+  getTestDataFailure: createAction(GET_TEST_DATA_FAILURE),
 };

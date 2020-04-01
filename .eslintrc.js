@@ -8,6 +8,7 @@ module.exports = {
   extends: ['airbnb'],
   plugins: ['import', 'jsx-a11y', 'prettier'],
   rules: {
+    'linebreak-style': 0,
     'comma-dangle': [2, 'always-multiline'],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.js', '**/*.spec.js', '**/*.stories.js'] }],
     'max-len': ['error', { code: 180, ignorePattern: '^\\s*<path' }],

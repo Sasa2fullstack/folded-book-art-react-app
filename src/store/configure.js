@@ -19,21 +19,20 @@ const configureStore = (initialState = {}) => {
   }
 
   const enhancers = [
-    applyMiddleware(...middlewares) // empty for now;
+    applyMiddleware(...middlewares), // empty for now;
   ];
 
   /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    process.env.NODE_ENV !== 'production' && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+  const composeEnhancers = process.env.NODE_ENV !== 'production' && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
   /* eslint-disable no-underscore-dangle */
 
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      ...reducers
+      ...reducers,
     }),
     initialState,
-    composeEnhancers(...enhancers)
+    composeEnhancers(...enhancers),
   );
 
   store.sagaTask = sagaMiddleware.run(sagas);

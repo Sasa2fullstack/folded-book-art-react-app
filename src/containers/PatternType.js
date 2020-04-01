@@ -1,6 +1,6 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { Container, Row, Col, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+
 import { history } from 'store/configure';
 import imgRuler from 'static/img/ruler.svg';
 import imgGps from 'static/img/gps.svg';
@@ -12,6 +12,7 @@ class PatternType extends React.Component {
     super(props);
     this.onProceed = this.onProceed.bind(this);
   }
+
   onProceed(mode) {
     if (mode === 1) {
       history.push('/pattern-mmf');
@@ -19,12 +20,13 @@ class PatternType extends React.Component {
       history.push('/pattern-cut-fold');
     }
   }
+
   render() {
     return (
       <div style={{ marginTop: '20px' }}>
         <Container>
           <Row>
-            <Col sm="2"></Col>
+            <Col sm="2" />
             <Col sm="4">
               <Card className="pattern-card" style={{ width: '90%', height: '224px' }}>
                 <CardBody>
@@ -53,7 +55,7 @@ class PatternType extends React.Component {
                   </div>
                   <CardTitle>
                     <div>Cut & Fold</div>
-                    <div></div>
+                    <div />
                   </CardTitle>
                   <Button color="success" size="md" style={{ marginTop: '32px' }} onClick={n => this.onProceed(2)}>
                     Proceed
@@ -61,7 +63,7 @@ class PatternType extends React.Component {
                 </CardBody>
               </Card>
             </Col>
-            <Col sm="2"></Col>
+            <Col sm="2" />
           </Row>
         </Container>
       </div>

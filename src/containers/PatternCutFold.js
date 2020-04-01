@@ -1,8 +1,7 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Card, CardBody, CardTitle, Button } from 'reactstrap';
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, Button, Modal, ModalBody, ModalFooter, ListGroup, ListGroupItem } from 'reactstrap';
+
+
 import imgDownload from 'static/img/download.svg';
 
 const { ipcRenderer } = window.require('electron');
@@ -14,25 +13,28 @@ class PatternCutFold extends React.Component {
     this.state = {
       many: 0,
       silhouetteList: [],
-      modal: false
+      modal: false,
     };
     this.onProceed = this.onProceed.bind(this);
     this.onCreatePattnern = this.onCreatePattnern.bind(this);
   }
+
   componentDidMount() {
     const res = ipcRenderer.sendSync('fba-get-silhouettes');
     this.setState({
-      silhouetteList: res
+      silhouetteList: res,
     });
   }
+
   onProceed(count) {
     this.setState({ many: count });
     // history.push('/select-silhouette');
   }
+
   toggle = () => {
     const { modal } = this.state;
     this.setState({
-      modal: !modal
+      modal: !modal,
     });
   };
 
@@ -40,25 +42,25 @@ class PatternCutFold extends React.Component {
 
   render() {
     const { many, modal, silhouetteList } = this.state;
-    let sections = <div></div>;
+    let sections = <div />;
     switch (many) {
       case 1:
         sections = (
           <Row style={{ marginTop: '20px' }}>
-            <Col sm="4"></Col>
+            <Col sm="4" />
             <Col sm="4">
               <Card className="pattern-card" onClick={this.toggle}>
                 <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
-            <Col sm="4"></Col>
+            <Col sm="4" />
           </Row>
         );
         break;
       case 2:
         sections = (
           <Row style={{ marginTop: '20px' }}>
-            <Col sm="2"></Col>
+            <Col sm="2" />
             <Col sm="4">
               <Card className="pattern-card">
                 <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
@@ -69,7 +71,7 @@ class PatternCutFold extends React.Component {
                 <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="download" />
               </Card>
             </Col>
-            <Col sm="2"></Col>
+            <Col sm="2" />
           </Row>
         );
         break;
@@ -97,16 +99,14 @@ class PatternCutFold extends React.Component {
       default:
         break;
     }
-    const silhouetteListData = silhouetteList.map((silhouette, idx) => {
-      return (
-        <ListGroupItem align="left" key={idx}>
-          <span>
-            <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
-          </span>
-          <span className="silhouette-list-name">{silhouette.name}</span>
-        </ListGroupItem>
-      );
-    });
+    const silhouetteListData = silhouetteList.map((silhouette, idx) => (
+      <ListGroupItem align="left" key={idx}>
+        <span>
+          <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
+        </span>
+        <span className="silhouette-list-name">{silhouette.name}</span>
+      </ListGroupItem>
+    ));
 
     return (
       <div style={{ marginTop: '20px' }}>
@@ -117,7 +117,7 @@ class PatternCutFold extends React.Component {
                 <CardBody>
                   <CardTitle>1 section</CardTitle>
                   <div className="section-group">
-                    <div className="one-section"></div>
+                    <div className="one-section" />
                   </div>
                 </CardBody>
               </Card>
@@ -128,8 +128,8 @@ class PatternCutFold extends React.Component {
                   <CardBody>
                     <CardTitle>2 section</CardTitle>
                     <div className="section-group">
-                      <div className="one-section"></div>
-                      <div className="one-section"></div>
+                      <div className="one-section" />
+                      <div className="one-section" />
                     </div>
                   </CardBody>
                 </Card>
@@ -140,9 +140,9 @@ class PatternCutFold extends React.Component {
                 <CardBody>
                   <CardTitle>3 section</CardTitle>
                   <div className="section-group">
-                    <div className="one-section"></div>
-                    <div className="one-section"></div>
-                    <div className="one-section"></div>
+                    <div className="one-section" />
+                    <div className="one-section" />
+                    <div className="one-section" />
                   </div>
                 </CardBody>
               </Card>
@@ -151,13 +151,13 @@ class PatternCutFold extends React.Component {
           {sections}
           {many > 0 ? (
             <Row style={{ marginTop: '20px', marginBottom: '5px' }}>
-              <Col sm="4"></Col>
+              <Col sm="4" />
               <Col sm="4">
                 <Button color="success" size="md" onClick={this.onCreatePattnern()}>
                   Proceed
                 </Button>
               </Col>
-              <Col sm="4"></Col>
+              <Col sm="4" />
             </Row>
           ) : (
             ''

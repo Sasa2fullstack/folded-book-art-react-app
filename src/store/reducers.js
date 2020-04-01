@@ -1,7 +1,7 @@
 import fba from './fba/reducer';
 
 const reducers = {
-  fba
+  fba,
 };
 
 export default reducers;

@@ -1,8 +1,7 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { Card, CardBody, CardTitle, Button } from 'reactstrap';
-import { Modal, ModalBody, ModalFooter } from 'reactstrap';
-import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col, Card, CardBody, CardTitle, Button, Modal, ModalBody, ModalFooter, ListGroup, ListGroupItem } from 'reactstrap';
+
+
 import imgDownload from 'static/img/download.svg';
 
 const { ipcRenderer } = window.require('electron');
@@ -14,36 +13,44 @@ class PatternMMF extends React.Component {
     this.state = {
       silhouetteList: [],
       isModal: false,
-      silhouetteId: 0
+      silhouetteId: 0,
+      isSettingModal: false,
     };
-    this.onCreatePattnern = this.onCreatePattnern.bind(this);
   }
+
   componentDidMount() {
     const res = ipcRenderer.sendSync('fba-get-silhouettes');
     this.setState({
-      silhouetteList: res
+      silhouetteList: res,
     });
   }
-  onSelectSilhouette = idx => {
+
+  onSelectSilhouette = (idx) => {
     this.setState({
       silhouetteId: idx,
-      isModal: false
-    });
-  };
-  toggle = () => {
-    const { isModal } = this.state;
-    this.setState({
-      isModal: !isModal
+      isModal: false,
     });
   };
 
-  onCreatePattnern() {}
+  toggle = () => {
+    const { isModal } = this.state;
+    this.setState({
+      isModal: !isModal,
+    });
+  };
+
+  toggleSetting = () => {
+    const { isSettingModal } = this.state;
+    this.setState({
+      isSettingModal: !isSettingModal,
+    });
+  };
 
   render() {
     let imgCard = imgDownload;
     let styleImgCard = { margin: 'auto', width: '57px' };
     let classImgCard = '';
-    const { isModal, silhouetteList, silhouetteId } = this.state;
+    const { isModal, silhouetteList, silhouetteId, isSettingModal } = this.state;
     if (silhouetteId > 0) {
       const silhouetteFound = silhouetteList.find(element => element.id === silhouetteId);
       console.log(silhouetteFound);
@@ -52,37 +59,35 @@ class PatternMMF extends React.Component {
       classImgCard = 'img-thumbnail';
     }
 
-    const silhouetteListData = silhouetteList.map((silhouette, idx) => {
-      return (
-        <ListGroupItem align="left" key={idx} onClick={id => this.onSelectSilhouette(silhouette.id)}>
-          <span>
-            <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
-          </span>
-          <span className="silhouette-list-name">{silhouette.name}</span>
-        </ListGroupItem>
-      );
-    });
+    const silhouetteListData = silhouetteList.map((silhouette, idx) => (
+      <ListGroupItem align="left" key={idx} onClick={id => this.onSelectSilhouette(silhouette.id)}>
+        <span>
+          <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
+        </span>
+        <span className="silhouette-list-name">{silhouette.name}</span>
+      </ListGroupItem>
+    ));
 
     return (
       <div>
         <Container>
           <Row style={{ marginTop: '20vh' }}>
-            <Col sm="4"></Col>
+            <Col sm="4" />
             <Col sm="4">
               <Card className="pattern-card" onClick={this.toggle}>
                 <img src={imgCard} style={styleImgCard} alt="Selected Silhouette" className={classImgCard} />
               </Card>
             </Col>
-            <Col sm="4"></Col>
+            <Col sm="4" />
           </Row>
           <Row style={{ marginTop: '10px', marginBottom: '10px' }}>
-            <Col sm="4"></Col>
+            <Col sm="4" />
             <Col sm="4">
-              <Button color="success" size="md">
+              <Button color="success" size="md" onClick={this.toggleSetting}>
                 Create Pattern
               </Button>
             </Col>
-            <Col sm="4"></Col>
+            <Col sm="4" />
           </Row>
         </Container>
 
@@ -94,6 +99,15 @@ class PatternMMF extends React.Component {
           </ModalBody>
           <ModalFooter>
             <Button className="btn-secondary btn-sm" onClick={this.toggle}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </Modal>
+
+        <Modal isOpen={isSettingModal} centered>
+          <ModalBody />
+          <ModalFooter>
+            <Button className="btn-secondary btn-sm" onClick={this.toggleSetting}>
               Cancel
             </Button>
           </ModalFooter>
