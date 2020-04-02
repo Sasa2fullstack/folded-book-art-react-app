@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Col, Button, Form, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter, Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from 'reactstrap';
 import DataTable, { createTheme } from 'react-data-table-component';
-
+import ImageViewer from 'components/ImgViewer';
 
 import imgDownload from 'static/img/download.svg';
 
 const electron = window.require('electron');
-const base64Img = window.require('base64-img');
+const Jimp = window.require('jimp');
 const { dialog } = electron.remote;
 const { ipcRenderer } = electron;
 
@@ -31,7 +31,6 @@ createTheme('solarized', {
   },
   context: {
     background: '#353535',
-    // text: '#FFFFFF'
   },
   divider: {
     default: '#606060',
@@ -51,11 +50,7 @@ class SilhouetteLibrary extends React.Component {
         name: '',
         center: true,
         width: '10%',
-        cell: row => (
-          <div>
-            <img src={base64Img.base64Sync(row.path)} style={{ marginTop: '3px', marginBottom: '3px' }} className="img-size-65 img-thumbnail" />
-          </div>
-        ),
+        cell: row => <ImageViewer path={row.path} width={row.width} height={row.height} size={65} alt="item" />,
       },
       {
         name: 'Name',
@@ -83,6 +78,8 @@ class SilhouetteLibrary extends React.Component {
       silhouetteAddModal: false,
       silhouetteImgPath: '',
       silhouetteName: '',
+      width: 0,
+      height: 0,
       errorMsg: '',
       data: [],
     };
@@ -111,7 +108,7 @@ class SilhouetteLibrary extends React.Component {
     });
   };
 
-  openSilhouetteImg = () => {
+  openSilhouetteImg = async () => {
     const files = dialog.showOpenDialogSync({
       properties: ['openFile'],
       filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
@@ -123,9 +120,21 @@ class SilhouetteLibrary extends React.Component {
       silhouetteImgPath = files[0].replace(/\\/g, '/');
     }
 
-    this.setState({
-      silhouetteImgPath,
-    });
+    try {
+      const image = await Jimp.read(silhouetteImgPath);
+      this.setState({
+        silhouetteImgPath,
+        width: image.bitmap.width,
+        height: image.bitmap.height,
+        errorMsg: '',
+      });
+    } catch (error) {
+      this.setState({
+        errorMsg: 'Please open correct image',
+        width: 0,
+        height: 0,
+      });
+    }
   };
 
   handleChange = (event) => {
@@ -136,7 +145,7 @@ class SilhouetteLibrary extends React.Component {
 
   addSilhouette = () => {
     let error = null;
-    const { silhouetteImgPath, silhouetteName } = this.state;
+    const { silhouetteImgPath, silhouetteName, width, height } = this.state;
     if (silhouetteImgPath.length === 0) {
       error = 'Please choose silhouette image.';
     } else if (silhouetteName.length === 0) {
@@ -150,6 +159,8 @@ class SilhouetteLibrary extends React.Component {
       const res = ipcRenderer.sendSync('fba-new-silhouette', {
         name: silhouetteName,
         path: silhouetteImgPath,
+        width,
+        height,
       });
       if (res) {
         this.getSilhouetteData();
@@ -157,6 +168,8 @@ class SilhouetteLibrary extends React.Component {
           silhouetteAddModal: false,
           silhouetteImgPath: '',
           silhouetteName: '',
+          width: 0,
+          height: 0,
           errorMsg: '',
         });
       } else {
@@ -195,16 +208,11 @@ class SilhouetteLibrary extends React.Component {
   };
 
   render() {
-    const { confirmModal, silhouetteAddModal, silhouetteName, silhouetteImgPath, errorMsg } = this.state;
-    let imgOnDlg = imgDownload;
-    let imgStyle = { margin: 'auto', width: '57px' };
-    if (silhouetteImgPath.length > 0) {
-      imgOnDlg = base64Img.base64Sync(silhouetteImgPath);
-      imgStyle = { margin: 'auto', width: '150px', height: '150px' };
-    }
+    const { confirmModal, silhouetteAddModal, silhouetteName, silhouetteImgPath, errorMsg, width, height } = this.state;
+
     return (
       <div style={{ marginTop: '20px' }}>
-        <Button color="primary" size="sm" id="btn-add-silhouette" onClick={this.openAddDlg} style={{ marginBottom: '10px' }}>
+        <Button className="btn-primary" size="sm" id="btn-add-silhouette" onClick={this.openAddDlg} style={{ marginBottom: '10px' }}>
           New Silhouette
         </Button>
         <DataTable columns={this.columns} theme="solarized" data={this.state.data} onSelectedRowsChange={this.updateState} noHeader />
@@ -215,7 +223,11 @@ class SilhouetteLibrary extends React.Component {
               <Col sm="1" />
               <Col sm="10">
                 <Card className="pattern-card" onClick={this.openSilhouetteImg}>
-                  <img src={imgOnDlg} style={imgStyle} alt="New Silhouette Image" />
+                  {silhouetteImgPath.length > 0 ? (
+                    <ImageViewer path={silhouetteImgPath} width={width} height={height} size={150} alt="silhoutette-Image" style={{ margin: 'auto' }} />
+                  ) : (
+                    <img src={imgDownload} style={{ margin: 'auto', width: '57px' }} alt="New Silhouette Image" />
+                  )}
                 </Card>
               </Col>
               <Col sm="1" />

@@ -23,7 +23,7 @@ class PatternType extends React.Component {
 
   render() {
     return (
-      <div style={{ marginTop: '20px' }}>
+      <div style={{ marginTop: '10vh' }}>
         <Container>
           <Row>
             <Col sm="2" />

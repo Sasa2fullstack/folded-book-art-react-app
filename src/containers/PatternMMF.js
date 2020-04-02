@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, CardBody, CardTitle, Button, Modal, ModalBody, ModalFooter, ListGroup, ListGroupItem } from 'reactstrap';
-
+import ImageViewer from 'components/ImgViewer';
 
 import imgDownload from 'static/img/download.svg';
 
@@ -47,24 +47,19 @@ class PatternMMF extends React.Component {
   };
 
   render() {
-    let imgCard = imgDownload;
-    let styleImgCard = { margin: 'auto', width: '57px' };
-    let classImgCard = '';
+    const imgCard = imgDownload;
+    let silhouetteFound = '';
     const { isModal, silhouetteList, silhouetteId, isSettingModal } = this.state;
     if (silhouetteId > 0) {
-      const silhouetteFound = silhouetteList.find(element => element.id === silhouetteId);
-      console.log(silhouetteFound);
-      imgCard = base64Img.base64Sync(silhouetteFound.path);
-      styleImgCard = { margin: 'auto', width: '150px', height: '150px' };
-      classImgCard = 'img-thumbnail';
+      silhouetteFound = silhouetteList.find(element => element.id === silhouetteId);
     }
 
     const silhouetteListData = silhouetteList.map((silhouette, idx) => (
       <ListGroupItem align="left" key={idx} onClick={id => this.onSelectSilhouette(silhouette.id)}>
-        <span>
-          <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
-        </span>
-        <span className="silhouette-list-name">{silhouette.name}</span>
+        <div style={{ float: 'left' }}>
+          <ImageViewer path={silhouette.path} width={silhouette.width} height={silhouette.height} size={65} alt="item" />
+        </div>
+        <div className="silhouette-list-name">{silhouette.name}</div>
       </ListGroupItem>
     ));
 
@@ -75,7 +70,18 @@ class PatternMMF extends React.Component {
             <Col sm="4" />
             <Col sm="4">
               <Card className="pattern-card" onClick={this.toggle}>
-                <img src={imgCard} style={styleImgCard} alt="Selected Silhouette" className={classImgCard} />
+                {silhouetteId > 0 ? (
+                  <ImageViewer
+                    path={silhouetteFound.path}
+                    width={silhouetteFound.width}
+                    height={silhouetteFound.height}
+                    size={150}
+                    alt="Selected Silhouette"
+                    style={{ margin: 'auto' }}
+                  />
+                ) : (
+                  <img src={imgCard} style={{ margin: 'auto', width: '57px' }} alt="Selected Silhouette" />
+                )}
               </Card>
             </Col>
             <Col sm="4" />
@@ -83,7 +89,7 @@ class PatternMMF extends React.Component {
           <Row style={{ marginTop: '10px', marginBottom: '10px' }}>
             <Col sm="4" />
             <Col sm="4">
-              <Button color="success" size="md" onClick={this.toggleSetting}>
+              <Button color="success" size="md" onClick={this.toggleSetting} disabled={silhouetteId === 0}>
                 Create Pattern
               </Button>
             </Col>

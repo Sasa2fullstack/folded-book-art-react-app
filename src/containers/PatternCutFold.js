@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, CardBody, CardTitle, Button, Modal, ModalBody, ModalFooter, ListGroup, ListGroupItem } from 'reactstrap';
-
+import ImageViewer from 'components/ImgViewer';
 
 import imgDownload from 'static/img/download.svg';
 
@@ -101,10 +101,10 @@ class PatternCutFold extends React.Component {
     }
     const silhouetteListData = silhouetteList.map((silhouette, idx) => (
       <ListGroupItem align="left" key={idx}>
-        <span>
-          <img src={base64Img.base64Sync(silhouette.path)} className="img-size-65 img-thumbnail" />
-        </span>
-        <span className="silhouette-list-name">{silhouette.name}</span>
+        <div style={{ float: 'left' }}>
+          <ImageViewer path={silhouette.path} width={silhouette.width} height={silhouette.height} size={65} alt="item" />
+        </div>
+        <div className="silhouette-list-name">{silhouette.name}</div>
       </ListGroupItem>
     ));
 

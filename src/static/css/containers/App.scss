@@ -187,13 +187,15 @@ body {
   border: solid 1px #979797;
   background-color: #474747;
   font-size: 11px;
+  padding: 0.3rem;
   &:hover {
     color: #c429d7;
     cursor: pointer;
   }
 }
 .silhouette-list-name {
-  margin-left: 5px;
+  margin-top: 20px;
+  padding-left: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -225,4 +227,10 @@ input:focus {
   border-radius: 18px !important;
   box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.11) !important;
   border: solid 1px #c429d7 !important;
+}
+
+.canvas-image {
+  display: block;
+  border-radius: 2px;
+  // background-image: url('../../img/transparent_background.png');
 }

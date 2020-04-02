@@ -62,6 +62,8 @@ ipcMain.on('fba-new-silhouette', async (event, args) => {
     const res = await knex('silhouettes').insert({
       name: args.name,
       path: newFilePath,
+      width: args.width,
+      height: args.height,
       created_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
     });
     event.returnValue = res;
