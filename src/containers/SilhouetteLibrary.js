@@ -13,33 +13,33 @@ const { ipcRenderer } = electron;
 createTheme('solarized', {
   headRow: {
     style: {
-      border: 'none',
-    },
+      border: 'none'
+    }
   },
   headCells: {
     style: {
       color: '#202124',
-      fontSize: '14px',
-    },
+      fontSize: '14px'
+    }
   },
   text: {
     primary: '#ffffff',
-    secondary: '#353535',
+    secondary: '#353535'
   },
   background: {
-    default: '#474747',
+    default: '#474747'
   },
   context: {
-    background: '#353535',
+    background: '#353535'
   },
   divider: {
-    default: '#606060',
+    default: '#606060'
   },
   action: {
     button: 'rgba(0,0,0,.54)',
     hover: 'rgba(0,0,0,.08)',
-    disabled: 'rgba(0,0,0,.12)',
-  },
+    disabled: 'rgba(0,0,0,.12)'
+  }
 });
 
 class SilhouetteLibrary extends React.Component {
@@ -50,28 +50,28 @@ class SilhouetteLibrary extends React.Component {
         name: '',
         center: true,
         width: '10%',
-        cell: row => <ImageViewer path={row.path} width={row.width} height={row.height} size={65} alt="item" />,
+        cell: row => <ImageViewer path={row.path} width={row.width} height={row.height} size={65} alt="item" />
       },
       {
         name: 'Name',
         selector: 'name',
         sortable: true,
         center: true,
-        width: '40%',
+        width: '40%'
       },
       {
         name: 'Date',
         selector: 'created_datetime',
         sortable: true,
         center: true,
-        width: '40%',
+        width: '40%'
       },
       {
         name: '',
         center: true,
         width: '10%',
-        cell: row => <div onClick={id => this.openConfirmDlg(row.id)} className="remove-btn" />,
-      },
+        cell: row => <div onClick={id => this.openConfirmDlg(row.id)} className="remove-btn" />
+      }
     ];
     this.state = {
       confirmModal: 0,
@@ -81,7 +81,7 @@ class SilhouetteLibrary extends React.Component {
       width: 0,
       height: 0,
       errorMsg: '',
-      data: [],
+      data: []
     };
   }
 
@@ -92,19 +92,19 @@ class SilhouetteLibrary extends React.Component {
   getSilhouetteData = () => {
     const res = ipcRenderer.sendSync('fba-get-silhouettes');
     this.setState({
-      data: res,
+      data: res
     });
   };
 
   openAddDlg = () => {
     this.setState({
-      silhouetteAddModal: true,
+      silhouetteAddModal: true
     });
   };
 
   closeDlg = () => {
     this.setState({
-      silhouetteAddModal: false,
+      silhouetteAddModal: false
     });
   };
 
@@ -112,7 +112,7 @@ class SilhouetteLibrary extends React.Component {
     const files = dialog.showOpenDialogSync({
       properties: ['openFile'],
       filters: [{ name: 'Images', extensions: ['jpg', 'png'] }],
-      modal: true,
+      modal: true
     });
 
     let { silhouetteImgPath } = this.state;
@@ -126,18 +126,18 @@ class SilhouetteLibrary extends React.Component {
         silhouetteImgPath,
         width: image.bitmap.width,
         height: image.bitmap.height,
-        errorMsg: '',
+        errorMsg: ''
       });
     } catch (error) {
       this.setState({
         errorMsg: 'Please open correct image',
         width: 0,
-        height: 0,
+        height: 0
       });
     }
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     const curState = this.state;
     curState[event.target.name] = event.target.value;
     this.setState(curState);
@@ -153,14 +153,14 @@ class SilhouetteLibrary extends React.Component {
     }
     if (error) {
       this.setState({
-        errorMsg: error,
+        errorMsg: error
       });
     } else {
       const res = ipcRenderer.sendSync('fba-new-silhouette', {
         name: silhouetteName,
         path: silhouetteImgPath,
         width,
-        height,
+        height
       });
       if (res) {
         this.getSilhouetteData();
@@ -170,19 +170,19 @@ class SilhouetteLibrary extends React.Component {
           silhouetteName: '',
           width: 0,
           height: 0,
-          errorMsg: '',
+          errorMsg: ''
         });
       } else {
         this.setState({
-          errorMsg: 'Error occured',
+          errorMsg: 'Error occured'
         });
       }
     }
   };
 
-  openConfirmDlg = (id) => {
+  openConfirmDlg = id => {
     this.setState({
-      confirmModal: id,
+      confirmModal: id
     });
   };
 
@@ -192,18 +192,18 @@ class SilhouetteLibrary extends React.Component {
     if (res) {
       this.getSilhouetteData();
       this.setState({
-        confirmModal: 0,
+        confirmModal: 0
       });
     }
   };
 
   closeConfirmDlg = () => {
     this.setState({
-      confirmModal: 0,
+      confirmModal: 0
     });
   };
 
-  updateState = (state) => {
+  updateState = state => {
     this.setState({ selectedRows: state.selectedRows });
   };
 
